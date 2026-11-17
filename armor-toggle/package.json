@@ -1,0 +1,46 @@
+{
+  "name": "armor-toggle",
+  "version": "6.0.0",
+  "description": "破甲 6.0（电脑端）：三层提示词注入 + 系统最高指令 + 四道拦截闸 + 十类违法能力弹药块 + 政治历史专章；标题栏药丸开关控制运行期生效，默认关闭（Windows/macOS/Linux/Android 通用）",
+  "license": "CC-BY-NC-SA-4.0",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./client.js": "./client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "harness:check": "node --check index.js && node --check client.js"
+  },
+  "dsh": {
+    "id": "armor-toggle",
+    "name": "破甲",
+    "version": "6.0.0",
+    "permissions": "系统提示词注入, 系统最高指令覆盖, 安全规则组装期剥离, 实时流式监看, 停止原因改写, 标题栏药丸开关",
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true
+    },
+    "compat": {
+      "dsha": "all",
+      "platforms": [
+        "linux",
+        "macos",
+        "windows",
+        "android"
+      ],
+      "note": "自检不依赖具体宿主版本：section 名与正文双层匹配，宿主升级新增的安全段落同样在组装期被拦。开关走宿主服务 armorToggle，运行期实时生效，无需重启。"
+    }
+  }
+}

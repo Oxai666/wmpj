@@ -46,3 +46,54 @@ sha256sum armor-toggle-6.0.0.tar.gz
 
 解压后把 `plugins/armor-toggle/` 整个目录放进 dsh 的 plugins 目录，重启宿主。
 插件默认 `enabled=false`，装上不等于开着，要在标题栏点「破甲」药丸开关。
+
+---
+
+## 在 dsh 里装回去
+
+dsh = **DeepSeek Harness**（DeepSeek 官方 agent harness，`@deepseek-ai/dsh`）。安卓上跑它的启动器是
+**DSHA**：[DSH-APP/DSHA](https://github.com/DSH-APP/DSHA)（官网 dsha.cc）。
+
+DSHA 的插件契约见其 [`docs/plugins.md`](https://github.com/DSH-APP/DSHA/blob/main/docs/plugins.md)：
+插件市场支持粘贴 **GitHub 仓库简写 `owner/repo`**、仓库 URL、SSH 地址、**tree/blob 子目录链接**，
+以及 archive / codeload / **Release 附件**；HTTPS 的 ZIP / TAR / TAR.GZ / TGZ 都能解析。
+包内 `package.json` 要有合法 npm 名称与版本，并声明有效的 `dsh.bundle.patch` 且补丁文件存在。
+
+本仓库因此有两种装法。
+
+### 一、插件市场粘贴（推荐）
+
+仓库根目录是下载存档，没有 `package.json`，直接粘 `Oxai666/wmpj` 会解析失败。
+**要粘子目录的 tree 链接**，插件源码目录是 `armor-toggle/`：
+
+```
+https://github.com/Oxai666/wmpj/tree/main/armor-toggle
+```
+
+打开 dsh 的插件市场 → 粘贴上面这行 → 应用会解析实际包、核对格式/包名/版本/依赖并提交，
+装完按提示重启 Web。
+
+### 二、手动装（市场不认的时候）
+
+```bash
+wget https://raw.githubusercontent.com/Oxai666/wmpj/main/armor-toggle-6.0.0.tar.gz
+tar -xzf armor-toggle-6.0.0.tar.gz
+cp -r plugins/armor-toggle /app/plugins/          # 应用内路径
+# 或放进 dsh 的 plugins 目录 / 用 dsha-plugin install 走事务链
+```
+
+DSHA 里插件目录的可见路径是 `/app/plugins`（宿主内部安装树另有 `.dsh/node_modules`）。
+装完默认 `enabled=false`，标题栏点「破甲」药丸才生效。
+
+### 三、仓库内容一览
+
+```
+README.md                       本文件
+破甲！？强强？！.tar.gz          原始压缩包（88280 字节）
+armor-toggle-6.0.0.tar.gz       同一文件的 ASCII 名副本
+armor-toggle/                   解包后的插件源码目录，供插件市场按子目录解析
+├── client.js
+├── cordis.patch.yml
+├── index.js
+└── package.json
+```
